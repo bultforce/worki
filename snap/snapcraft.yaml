@@ -1,0 +1,50 @@
+name: worki
+version: 0.1.0
+summary: worki
+description: worki that does everything!
+
+confinement: devmode
+base: core18
+grade: stable
+
+slots:
+  dbus-worki: # adjust accordingly to your app name
+    interface: dbus
+    bus: session
+    name: org.bar.worki # adjust accordingly to your app name and
+
+parts:
+  testapp:
+    plugin: python
+    python-version: python3
+    python-packages:
+      - pip
+    source-type: git
+    source: https://github.com/bultforce/testapp.git
+    source-subdir: .
+    requirements: [ 'requirements.txt' ]
+  zenity:
+    plugin: nil
+    stage-packages:
+      - zenity
+  worki:
+    after:
+      - testapp
+    source: .
+    plugin: flutter
+    flutter-target: lib/main.dart # The main entry-point file of the application
+    build-packages:
+      - libappindicator3-dev
+    stage-packages:
+      - libappindicator3-dev
+apps:
+  worki:
+    command: worki
+    extensions: [flutter-dev] # Where "master" defines which Flutter channel to use for the build
+    plugs:
+      - network
+    slots:
+      - dbus-worki
+  testapp:
+    command: bin/hello
+    plugs: [ home,network-bind,desktop ]

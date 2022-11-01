@@ -1,0 +1,8 @@
+[Desktop Entry]
+Name=worki
+Comment=worki that does everything
+Exec=worki
+Icon=${SNAP}/meta/gui/worki.png # replace name to your app name
+Terminal=false
+Type=Application
+Categories=Education; #adjust accordingly your snap category
